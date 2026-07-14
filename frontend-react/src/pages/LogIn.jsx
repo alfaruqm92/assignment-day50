@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { apiRequest } from "../api/client";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -41,12 +41,7 @@ function Login() {
 
     setSubmitting(true);
     try {
-      const data = await apiRequest("/login", {
-        method: "POST",
-        body: { email: form.email, password: form.password, role: form.role },
-      });
-
-      login(data.token, data.user); // simpan token + user
+      await login(form.email, form.password);
       navigate("/dashboard");
     } catch (err) {
       setServerError(err.message || "Login gagal");

@@ -1,58 +1,83 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { apiRequest } from "../api/client";
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+
     const [user, setUser] = useState(null);
-    const [isAdmin, setIsAdmin] = useState(false);
+
     const [loading, setLoading] = useState(true);
 
+    const token = localStorage.getItem("token");
+
     useEffect(() => {
-        const savedUser = localStorage.getItem('user');
-        const token = localStorage.getItem("token");
-        
-        if(token && savedUser){
-            const parsed = JSON.parse(savedUser);
-            setUser(parsed);
-            setIsAdmin(parsed.role === "admin");
+
+        const fetchUser = async () => {
+
+            if (!token) {
+                setLoading(false);
+                return;
             }
 
-            setLoading(false);
+            try {
+                const res = await apiRequest("/me");
+                setUser(res.user);
+            } catch (error) {
+                console.error(error);
+                localStorage.removeItem("token");
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUser();
     }, []);
 
-    const login = (token, userData) => {
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(userData));
-        setUser(userData);
-        setIsAdmin(userData.role === "admin");
+    const login = async (email, password) => {
+        const res = await apiRequest("/login", {
+            method: "POST",
+            body: {
+                email,
+                password,
+            }
+        });
+
+        localStorage.setItem("token", res.token);
+        setUser(res.user);
+        return res;
+
     };
 
-    const logout = () => {
+    const logout = async () => {
+
+        try {
+            await apiRequest("/logout", {
+                method: "POST"
+            });
+        } catch(error){
+            console.error(error);
+        }
+
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
         setUser(null);
-        setIsAdmin(false);
     };
 
-    const getToken = () => localStorage.getItem("token");
-
-    const value = {
-        user,
-        isLoggedIn: !!user, 
-        isAdmin,
-        loading,
-        login,
-        logout,
-        getToken,
-    };
-
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider
+            value={{
+                user,
+                loading,
+                login,
+                logout,
+                isAuthenticated: !!user,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === null) {
-    throw new Error("useAuth harus dipakai di dalam <AuthProvider>");
-  }
-  return context;
+    return useContext(AuthContext);
 }
