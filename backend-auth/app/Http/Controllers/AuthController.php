@@ -9,10 +9,6 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    /**
-     * REGISTER
-     * POST /api/register
-     */
     public function register(Request $request)
     {
         $data = $request->validate([
@@ -24,7 +20,7 @@ class AuthController extends Controller
         $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
             'role'     => 'user',
         ]);
 
@@ -37,10 +33,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * LOGIN
-     * POST /api/login
-     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -65,10 +57,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * ME
-     * GET /api/me  (auth:sanctum)
-     */
     public function me(Request $request)
     {
         return response()->json([
@@ -76,10 +64,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * LOGOUT
-     * POST /api/logout  (auth:sanctum)
-     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

@@ -2,35 +2,92 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    private array $products = [
-        ['id' => 1, 'name' => 'Kopi Arabika',  'price' => 85000, 'stock' => 20],
-        ['id' => 2, 'name' => 'Kopi Robusta',  'price' => 65000, 'stock' => 35],
-        ['id' => 3, 'name' => 'Teh Hijau',     'price' => 45000, 'stock' => 50],
-        ['id' => 4, 'name' => 'Cokelat Panas', 'price' => 30000, 'stock' => 15],
-    ];
-
     /**
-     * PUBLIC: siapa saja boleh lihat daftar produk.
-     * GET /api/products
+     * Menampilkan semua product dengan pagination
      */
     public function index()
     {
-        return response()->json(['data' => $this->products]);
+        $products = Product::with('category')
+            ->latest()
+            ->paginate(10);
+
+        return response()->json($products);
     }
 
     /**
-     * ADMIN ONLY
-     * GET /api/admin/users
+     * Menampilkan detail product
      */
-    public function adminUsers()
+    public function show(Product $product)
     {
+        $product->load('category');
+
+        return response()->json($product);
+    }
+
+    /**
+     * Menambahkan product baru
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'category_product_id' => 'required|exists:category_products,id',
+            'title' => 'required|string|max:255',
+            'instructor' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|string',
+            'rating' => 'nullable|numeric|min:0|max:5',
+            'students' => 'nullable|integer|min:0',
+            'level' => 'required|in:Beginner,Intermediate,Advanced',
+        ]);
+
+        $product = Product::create($data);
+
         return response()->json([
-            'message' => 'Data khusus admin',
-            'data'    => \App\Models\User::select('id', 'name', 'email', 'role')->get(),
+            'message' => 'Product berhasil ditambahkan',
+            'data' => $product,
+        ], 201);
+    }
+
+    /**
+     * Update product
+     */
+    public function update(Request $request, Product $product)
+    {
+        $data = $request->validate([
+            'category_product_id' => 'required|exists:category_products,id',
+            'title' => 'required|string|max:255',
+            'instructor' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|string',
+            'rating' => 'nullable|numeric|min:0|max:5',
+            'students' => 'nullable|integer|min:0',
+            'level' => 'required|in:Beginner,Intermediate,Advanced',
+        ]);
+
+        $product->update($data);
+
+        return response()->json([
+            'message' => 'Product berhasil diperbarui',
+            'data' => $product,
+        ]);
+    }
+
+    /**
+     * Hapus product
+     */
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Product berhasil dihapus',
         ]);
     }
 }

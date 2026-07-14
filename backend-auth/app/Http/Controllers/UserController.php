@@ -2,34 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Traits\ApiResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    use ApiResponse;
-
+    /**
+     * Menampilkan semua user
+     */
     public function index()
     {
-        try {
-            $users = User::all(['id', 'name', 'email', 'role', 'created_at']);
-            return $this->successResponse($users, 'Users retrieved successfully');
-        } catch (\Exception $e) {
-            return $this->errorResponse('Failed to retrieve users', 500);
-        }
+        $users = User::latest()->paginate(10);
+
+        return response()->json([
+            'message' => 'Data user berhasil diambil',
+            'data' => $users,
+        ]);
     }
 
-    public function show($id)
+    /**
+     * Menampilkan detail user
+     */
+    public function show(User $user)
     {
-        try {
-            $user = User::findOrFail($id);
-            return $this->successResponse($user, 'User retrieved successfully');
-        } catch (ModelNotFoundException $e) {
-            return $this->notFoundResponse('User not found');
-        } catch (\Exception $e) {
-            return $this->errorResponse('Failed to retrieve user', 500);
-        }
+        return response()->json([
+            'message' => 'Detail user berhasil diambil',
+            'data' => $user,
+        ]);
+    }
+
+    /**
+     * Menambahkan user
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', Password::min(6)],
+            'role' => 'required|in:admin,user',
+        ]);
+
+        $data['password'] = Hash::make($data['password']);
+
+        $user = User::create($data);
+
+        return response()->json([
+            'message' => 'User berhasil ditambahkan',
+            'data' => $user,
+        ], 201);
+    }
+
+    /**
+     * Update user
+     */
+    public function update(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required|in:admin,user',
+        ]);
+
+        $user->update($data);
+
+        return response()->json([
+            'message' => 'User berhasil diperbarui',
+            'data' => $user,
+        ]);
+    }
+
+    /**
+     * Hapus user
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User berhasil dihapus',
+        ]);
     }
 }

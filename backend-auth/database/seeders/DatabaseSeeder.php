@@ -15,22 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate(
-            ['email' => 'admin@mail.com'],
-            [
-                'name'     => 'Admin Ganteng',
-                'password' => 'password',
-                'role'     => 'admin',
-            ]
-        );
-
-        User::updateOrCreate(
-            ['email' => 'user@mail.com'],
-            [
-                'name'     => 'User Biasa',
-                'password' => 'password',
-                'role'     => 'user',
-            ]
-        );
+         $this->call([
+        CategoryProductSeeder::class,
+        UserSeeder::class,
+        ProductSeeder::class,
+    ]);
     }
 }
+
