@@ -7,14 +7,15 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [form, setForm] = useState({ email: "", password: "", role: "" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState("buyer");
+  const [serverError, setServerError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
 
   const validate = () => {
     const newErrors = {};
@@ -42,9 +43,14 @@ function Login() {
     setSubmitting(true);
     try {
       await login(form.email, form.password);
+      console.log("Login berhasil");
       navigate("/dashboard");
     } catch (err) {
-      setServerError(err.message || "Login gagal");
+      console.log(err);
+      console.log(err.status);
+      console.log(err.data);
+
+  setServerError(err.message || "Login gagal");
     } finally {
       setSubmitting(false);
     }
@@ -87,16 +93,6 @@ function Login() {
             )}
           </div>
 
-          <div className="field">
-            <label>Role</label>
-            <select required onChange={handleChange} defaultValue={"buyer"} name="role">
-              <option value="buyer">Buyer</option>
-              <option value="seller">Seller</option>
-            </select>
-            {errors.role && (
-              <small className="error-text">{errors.role}</small>
-            )}
-          </div>
 
           <button type="submit" disabled={submitting} className="btn-primary">
             {submitting ? "Memproses..." : "Login"}

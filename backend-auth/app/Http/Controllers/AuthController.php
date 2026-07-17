@@ -35,8 +35,9 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+       try {
         $credentials = $request->validate([
-            'email'    => ['required', 'email'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
@@ -52,9 +53,17 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Login berhasil',
-            'user'    => $user,
-            'token'   => $token,
+            'user' => $user,
+            'token' => $token,
         ]);
+
+    } catch (\Throwable $e) {
+        return response()->json([
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ], 500);
+    }
     }
 
     public function me(Request $request)

@@ -1,7 +1,8 @@
 import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
 
   return (
     <div className="page">

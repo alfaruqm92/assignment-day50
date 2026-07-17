@@ -1,29 +1,19 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+import Navbar from "../components/Navbar";
+import { Hero } from "../components/Hero";
+import { WhyChoose } from "../components/WhyChoose";
+import { CourseList } from "../components/CourseList";
+
 function Home() {
-  const { isLoggedIn, user } = useAuth();
 
   return (
-    <div className="page">
-      <h1>Selamat Datang 👋</h1>
-      <p>
-        Ini contoh aplikasi React + Laravel dengan Autentikasi, Token, dan
-        Role-Based Access Control.
-      </p>
-
-      {isLoggedIn ? (
-        <p>
-          Kamu login sebagai <strong>{user?.name}</strong>. Buka{" "}
-          <Link to="/dashboard">Dashboard</Link>.
-        </p>
-      ) : (
-        <p>
-          Silakan <Link to="/login">Login</Link> atau{" "}
-          <Link to="/register">Daftar</Link> dulu.
-        </p>
-      )}
-    </div>
+    <main>
+      <Navbar />
+      <Hero />
+      <WhyChoose />
+      <CourseList />
+    </main>
   );
 }
 

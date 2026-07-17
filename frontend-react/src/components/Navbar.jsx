@@ -1,4 +1,5 @@
 import ListMenu from "../share/ListMenu";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -20,9 +21,11 @@ export default function Navbar() {
         </div>
 
         <div className='flex gap-4 pr-2'>
+            <Link to="/login">
             <button className='bg-sky-500 text-white w-19 h-8 rounded-lg hover:bg-sky-700'>
                 Log In           
             </button>
+            </Link>
 
             <a className='text-sky-700 text-sm font-light self-center hover:text-sky-600'>Sign Up</a>
         </div>

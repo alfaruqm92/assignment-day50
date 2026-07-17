@@ -4,6 +4,8 @@ const BASE_URL =
     import.meta.env.VITE_API_URL ||
     "http://127.0.0.1:8000/api";
 
+    console.log("API URL:", BASE_URL);
+
 const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
