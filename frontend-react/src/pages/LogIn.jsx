@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { GraduationCap } from "lucide-react";
 
 
 function Login() {
@@ -58,59 +59,117 @@ function Login() {
 
 
   return (
-    <div className="form-page">
-      <div className="form-card">
-        <h2>Login</h2>
+  <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
 
-        {serverError && <div className="alert-error">{serverError}</div>}
+    <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8">
 
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="field">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className={errors.email ? "input-error" : ""}
-            />
-            {errors.email && (
-              <small className="error-text">{errors.email}</small>
-            )}
-          </div>
+      {/* Logo */}
+      <div className="flex justify-center mb-3">
+        <GraduationCap size={50} className="text-blue-600" />
+      </div>
 
-          <div className="field">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className={errors.password ? "input-error" : ""}
-            />
-            {errors.password && (
-              <small className="error-text">{errors.password}</small>
-            )}
-          </div>
+      <h1 className="text-4xl font-bold text-center justify-center text-blue-600">
+        AfilaAcademy
+      </h1>
+      <div className="text-center mb-8">
+      
 
-
-          <button type="submit" disabled={submitting} className="btn-primary">
-            {submitting ? "Memproses..." : "Login"}
-          </button>
-        </form>
-
-        <p className="form-footer">
-          Belum punya akun? <Link to="/register">Daftar di sini</Link>
+        <p className="text-gray-500 mt-2">
+          Selamat Datang Kembali
         </p>
 
-        <div className="hint">
-          <p><strong>Akun uji coba:</strong></p>
-          <p>admin@mail.com / password (admin)</p>
-          <p>user@mail.com / password (user)</p>
-        </div>
+        <p className="text-sm text-gray-400">
+          Login untuk melanjutkan belajar
+        </p>
       </div>
+
+      {serverError && (
+        <div className="mb-4 rounded-xl bg-red-100 text-red-600 px-4 py-3">
+          {serverError}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+
+        {/* Email */}
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Email
+          </label>
+
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="Masukkan email"
+            className={`w-full rounded-xl border px-4 py-3 outline-none transition
+            ${
+              errors.email
+                ? "border-red-500"
+                : "border-gray-300 focus:border-blue-500"
+            }`}
+          />
+
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.email}
+            </p>
+          )}
+        </div>
+
+        {/* Password */}
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Password
+          </label>
+
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Masukkan password"
+            className={`w-full rounded-xl border px-4 py-3 outline-none transition
+            ${
+              errors.password
+                ? "border-red-500"
+                : "border-gray-300 focus:border-blue-500"
+            }`}
+          />
+
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.password}
+            </p>
+          )}
+        </div>
+
+        {/* Button */}
+        <button
+          type="submit"
+          disabled={submitting}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition disabled:opacity-50"
+        >
+          {submitting ? "Memproses..." : "Login"}
+        </button>
+
+      </form>
+
+      <div className="mt-6 text-center text-gray-600">
+        Belum punya akun?{" "}
+        <Link
+          to="/register"
+          className="text-blue-600 font-semibold hover:underline"
+        >
+          Daftar
+        </Link>
+      </div>
+
     </div>
-  );
+
+  </div>
+);
 }
 
 export default Login;

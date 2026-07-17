@@ -1,23 +1,67 @@
-const TextBanner = [
-    {
-        title: 'Unlock Your Potential with EduLearn',
-        desc: 'Embark on a journey and skill development with our comprehensive online courses. Learn at you own pace, anytime, anywhere'}
-]
-export function Hero() {
-    return (
-        <section className='flex flex-col items-center justify-center gap-2 w-full relative'>
-            <img src='./src/assets/image/Banner.png' alt='Hero' className='w-250 h-170 rounded-2xl ' />
-            <div className='item-center text-center'>
-                {TextBanner.map((text) => (
-                    <div key={text.title} className='absolute flex flex-col gap-2 z-10 translate-x-75 translate-y-0 inset-0 justify-center items-center bg-black/15 w-250 h-170 rounded-2xl'>
-                        <h1 className='font-bold text-4xl text-white'>{text.title}</h1>
-                        <p className='text-white w-150'>{text.desc}</p>
-                        <button className='bg-sky-500 text-white w-32 h-10 rounded-lg hover:bg-sky-700 mt-5'>
-                        Learn More
-                        </button>
-                    </div>
-                ))}
+import { Link } from "react-router-dom";
+import HeroImage from "../assets/image/Hero.jpg";
+
+export default function Hero() {
+  return (
+    <section className="bg-gradient-to-r from-blue-800 to-fuchsia-400">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+
+        <div className="grid md:grid-cols-2 items-center gap-2">
+
+          {/* Left */}
+          <div>
+
+            <span className="bg-white text-blue-600 px-4 py-1 rounded-full text-sm font-semibold">
+              🚀 Belajar Tanpa Batas
+            </span>
+
+            <h1 className="text-5xl font-bold text-white leading-tight mt-6">
+              Tingkatkan Skill Digitalmu
+              <br />
+              Bersama <span className="text-yellow-300">AfilaAcademy</span>
+            </h1>
+
+            <p className="text-white/90 text-lg mt-6 leading-8">
+              Belajar React, Laravel, UI/UX, Digital Marketing,
+              Data Science, dan berbagai skill digital
+              dari mentor berpengalaman.
+            </p>
+
+            <div className="flex gap-4 mt-8">
+
+              <Link
+                to="/products"
+                className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-xl hover:bg-gray-100 transition"
+              >
+                Jelajahi Course
+              </Link>
+
+              <Link
+                to="/register"
+                className="border border-white text-white px-6 py-3 rounded-xl hover:bg-white hover:text-blue-600 transition"
+              >
+                Daftar Gratis
+              </Link>
+
             </div>
-        </section>
-    )
+
+          </div>
+
+          {/* Right */}
+
+          <div className="flex justify-center">
+
+            <img
+              src={HeroImage}
+              alt="Hero"
+              className="w-full h-full object-cover"
+            />
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  );
 }

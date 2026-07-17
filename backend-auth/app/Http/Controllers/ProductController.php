@@ -10,9 +10,13 @@ class ProductController extends Controller
     /**
      * Menampilkan semua product dengan pagination
      */
-    public function index()
-    {
+    public function index(Request $request){
+        $search = $request->search;
+
         $products = Product::with('category')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
             ->latest()
             ->paginate(10);
 
@@ -40,9 +44,6 @@ class ProductController extends Controller
             'instructor' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'image' => 'nullable|string',
-            'rating' => 'nullable|numeric|min:0|max:5',
-            'students' => 'nullable|integer|min:0',
             'level' => 'required|in:Beginner,Intermediate,Advanced',
         ]);
 

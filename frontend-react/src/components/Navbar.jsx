@@ -1,34 +1,84 @@
-import ListMenu from "../share/ListMenu";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import Logo from "../assets/icon/letter-a.png";
 
 export default function Navbar() {
   return (
-    <nav className='top-0 left-0 w-full flex justify-between items-center z-10 gap-5 p-3 border-b border-gray-500'>
-        <div className='flex gap-1 items-center'>
-            <img src='./src/assets/icon/Logo.png' alt='logo' />
-            <a href="#" className='text-md font-bold'>DebiEdu</a>
-        </div>
+    <nav className="sticky top-0 z-50 bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-6">
 
-        <div className='flex gap-6'>
-            {ListMenu.map((menu) => (
-                <a 
-                    key={menu.title}
-                    href={menu.href}
-                    className='text-md hover:text-xl ease-in-out duration-100 pr-5'>
-                    {menu.title} 
-                </a>
-            ))}
-        </div>
+        <div className="flex items-center justify-between h-20">
 
-        <div className='flex gap-4 pr-2'>
-            <Link to="/login">
-            <button className='bg-sky-500 text-white w-19 h-8 rounded-lg hover:bg-sky-700'>
-                Log In           
-            </button>
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-2"
+          >
+            <img
+                src={Logo}
+                alt="AfilaAcademy"
+                className="w-10 h-10"
+            />
+
+            <h1 className="text-2xl font-bold text-blue-800 uppercase">
+              Afila<p className="text-orange-500 uppercase text-sm">Academy</p>
+            </h1>
+          </Link>
+
+          {/* Menu */}
+          <div className="hidden md:flex items-center gap-8">
+
+            <NavLink
+              to="/"
+              className="hover:text-blue-600 font-medium"
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/products"
+              className="hover:text-blue-600 font-medium"
+            >
+              Courses
+            </NavLink>
+
+            <NavLink
+              to="/categories"
+              className="hover:text-blue-600 font-medium"
+            >
+              Categories
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              className="hover:text-blue-600 font-medium"
+            >
+              About
+            </NavLink>
+
+          </div>
+
+          {/* Button */}
+          <div className="flex items-center gap-3">
+
+            <Link
+              to="/login"
+              className="px-5 py-2 border border-blue-600 rounded-lg text-blue-600 hover:bg-blue-50 transition"
+            >
+              Login
             </Link>
 
-            <a className='text-sky-700 text-sm font-light self-center hover:text-sky-600'>Sign Up</a>
+            <Link
+              to="/register"
+              className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+            >
+              Register
+            </Link>
+
+          </div>
+
         </div>
+
+      </div>
     </nav>
   );
 }

@@ -6,8 +6,10 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
 
     const [user, setUser] = useState(null);
-
     const [loading, setLoading] = useState(true);
+
+    const isAuthenticated = !!user;
+    const isAdmin = user?.role === "admin";
 
     const token = localStorage.getItem("token");
 
@@ -73,7 +75,8 @@ export function AuthProvider({ children }) {
                 loading,
                 login,
                 logout,
-                isAuthenticated: !!user,
+                isAuthenticated,
+                isAdmin,
             }}
         >
             {children}
