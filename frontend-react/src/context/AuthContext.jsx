@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { apiRequest } from "../api/client";
 
+
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -34,7 +35,7 @@ export function AuthProvider({ children }) {
             }
         };
         fetchUser();
-    }, []);
+    }, [token]);
 
     const login = async (email, password) => {
         console.log("EMAIL:", email);

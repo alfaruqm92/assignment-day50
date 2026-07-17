@@ -20,7 +20,7 @@ export default function Navbar() {
             />
 
             <h1 className="text-2xl font-bold text-blue-800 uppercase">
-              Afila<p className="text-orange-500 uppercase text-sm">Academy</p>
+              AfilaAcademy
             </h1>
           </Link>
 

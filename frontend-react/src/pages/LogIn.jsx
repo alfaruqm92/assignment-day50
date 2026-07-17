@@ -44,7 +44,6 @@ function Login() {
     setSubmitting(true);
     try {
       await login(form.email, form.password);
-      console.log("Login berhasil");
       navigate("/dashboard");
     } catch (err) {
       console.log(err);
