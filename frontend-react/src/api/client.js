@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL =
     import.meta.env.VITE_API_URL ||
-    "https://nama-app-production.up.railway.app";
+    "https://dibieducourse.up.railway.app";
 
 console.log("API URL:", BASE_URL);
 
