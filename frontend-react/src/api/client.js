@@ -2,9 +2,13 @@ import axios from "axios";
 
 const BASE_URL =
     import.meta.env.VITE_API_URL ||
-    "http://127.0.0.1:8000/api";
+    "https://nama-app-production.up.railway.app";
 
     console.log("API URL:", BASE_URL);
+
+
+const API_URL = import.meta.env.VITE_API_URL;
+fetch(`${API_URL}/api/users`);
 
 const apiClient = axios.create({
     baseURL: BASE_URL,
