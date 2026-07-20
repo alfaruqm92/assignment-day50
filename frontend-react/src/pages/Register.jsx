@@ -50,7 +50,7 @@ function Register() {
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-blue-600">
-          Afila Academy
+          DibiEdu
         </h1>
 
         <p className="text-gray-500 mt-2">

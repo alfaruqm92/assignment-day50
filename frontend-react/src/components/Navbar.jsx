@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import Logo from "../assets/icon/letter-a.png";
+
 
 export default function Navbar() {
   return (
@@ -13,14 +13,9 @@ export default function Navbar() {
             to="/"
             className="flex items-center gap-2"
           >
-            <img
-                src={Logo}
-                alt="AfilaAcademy"
-                className="w-10 h-10"
-            />
 
-            <h1 className="text-2xl font-bold text-blue-800 uppercase">
-              AfilaAcademy
+            <h1 className="text-2xl font-bold text-blue-800">
+              DibiEdu
             </h1>
           </Link>
 

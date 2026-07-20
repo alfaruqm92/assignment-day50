@@ -18,7 +18,7 @@ export default function Hero() {
             <h1 className="text-5xl font-bold text-white leading-tight mt-6">
               Tingkatkan Skill Digitalmu
               <br />
-              Bersama <span className="text-yellow-300">AfilaAcademy</span>
+              Bersama <span className="text-yellow-300">DibiEdu</span>
             </h1>
 
             <p className="text-white/90 text-lg mt-6 leading-8">

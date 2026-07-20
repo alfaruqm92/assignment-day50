@@ -68,7 +68,7 @@ function Login() {
       </div>
 
       <h1 className="text-4xl font-bold text-center justify-center text-blue-600">
-        AfilaAcademy
+        DibiEdu
       </h1>
       <div className="text-center mb-8">
       

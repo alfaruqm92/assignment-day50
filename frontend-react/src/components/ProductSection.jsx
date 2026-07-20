@@ -6,22 +6,20 @@ export default function ProductSection() {
 
     const [products, setProducts] = useState([]);
 
-    async function fetchProducts(){
-
+    async function fetchProducts() {
         try {
-            const response = await apiRequest({
-                endpoint: "/products",
+            const response = await apiRequest("/products", {
                 method: "GET",
             });
 
             console.log(response);
 
-            setProducts(response.data.data);
+            setProducts(response.data.data ?? response.data ?? []);
 
         } catch (error) {
             console.error(error);
+            setProducts([]); // pastikan tetap array walau error
         }
-
     }
 
      useEffect(() => {
@@ -44,7 +42,7 @@ export default function ProductSection() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-                    {products.map((product)=>(
+                    {(products ?? []).map((product)=>(
                         <ProductCard
                             key={product.id}
                             product={product}
